@@ -32,7 +32,7 @@ def PranMeyer(M1, gamma=1.4, deg=True):
     nu = (A*B-C)
 
     if deg:
-        nu = nu*180/math.pi
+        nu = nu*180/np.pi
 
     return nu
 
@@ -44,9 +44,9 @@ def inv_PranMeyer(v, deg=True, gamma=1.4):
     a = np.sqrt((gamma+1)/(gamma-1))
         
     if deg: # Converting to radians for trig functions
-        v *= math.pi/180
+        v *= np.pi/180
 
-    if v > math.pi/2*(a-1): # max nu
+    if v > np.pi/2*(a-1): # max nu
         print('Given value of nu exceeds max value of nu')
         return None
     

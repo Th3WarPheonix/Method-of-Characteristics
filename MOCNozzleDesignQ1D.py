@@ -32,7 +32,7 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
     nu[0] = np.linspace(angle0, theta_max, len(theta[0]))
     
     for i in range(num_waves):
-        Mach[0][i]   = expfan._zero_PranMeyer(nu[0][i], gamma=gamma)
+        Mach[0][i]   = expfan.inv_PranMeyer(nu[0][i], gamma=gamma)
         mu[0][i]     = np.arcsin(1/Mach[0][i])*180/np.pi
         Kminus[0][i] = theta[0][i] + nu[0][i]
         Kplus[0][i]  = theta[0][i] - nu[0][i]
@@ -49,7 +49,7 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
         Kminus[1][j] = Kminus[0][j]
         theta[1][j] = 1/2*(Kminus[1][j] + Kplus[1][j])
         nu[1][j] = 1/2*(Kminus[1][j] - Kplus[1][j])
-        Mach[1][j] = expfan._zero_PranMeyer(nu[1][j], gamma=gamma)
+        Mach[1][j] = expfan.inv_PranMeyer(nu[1][j], gamma=gamma)
         mu[1][j] = np.arcsin(1/Mach[1][j])*180/np.pi
 
         Cminus[1][j] = .5*(theta[0][j]+theta[1][j]) - .5*(mu[0][j]+mu[1][j])
@@ -82,7 +82,7 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
             Kminus[i][j] = Kminus[i-1][j+1]
             theta[i][j] = 1/2*(Kminus[i][j] + Kplus[i][j])
             nu[i][j] = 1/2*(Kminus[i][j] - Kplus[i][j])
-            Mach[i][j] = expfan._zero_PranMeyer(nu[i][j], gamma=gamma)
+            Mach[i][j] = expfan.inv_PranMeyer(nu[i][j], gamma=gamma)
             mu[i][j] = np.arcsin(1/Mach[i][j])*180/np.pi
             Cminus[i][j] = (theta[i-1][j+1]+theta[i][j])/2 - (mu[i-1][j+1]+mu[i][j])/2
             Cminus[i][j] = np.tan(Cminus[i][j]*np.pi/180)
