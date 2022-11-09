@@ -23,7 +23,7 @@ def main(M1, Mf, L, num_div, gamma=1.4):
     slope[0] = theta[0] + mu[0] # deg
     for i in range(1, num_div):
         nu[i] = nu[0] - theta[i] # deg
-        Mach[i] = EF._zero_PranMeyer(nu[i], gamma=gamma) # deg
+        Mach[i] = EF.inv_PranMeyer(nu[i], gamma=gamma) # deg
         mu[i] = np.arcsin(1/Mach[i])*180/np.pi # deg
         slope[i] = theta[i] + mu[i]
    
