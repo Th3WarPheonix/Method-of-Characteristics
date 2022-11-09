@@ -59,7 +59,7 @@ def main(angle, start_pts, length, M1, radius=1, clines=True, contour=False,):
                     theta[i][j] = angle
                     kplus[i][j] = kplus[i-1][j]
                     nu[i][j] = theta[i][j] - kplus[i][j]
-                    Mach[i][j] = EF._zero_PranMeyer(nu[i][j])
+                    Mach[i][j] = EF.inv_PranMeyer(nu[i][j])
                     kminus[i][j] = theta[i][j] + nu[i][j]
                     mu[i][j] = np.arcsin(1/Mach[i][j])*180/np.pi
                     slopep[i-1][j] = np.tan((.5*(theta[i-1][j]+theta[i][j]) + .5*(mu[i-1][j]+mu[i][j]))*np.pi/180)
@@ -74,7 +74,7 @@ def main(angle, start_pts, length, M1, radius=1, clines=True, contour=False,):
                     theta[i][j] = 0
                     kminus[i][j] = kminus[i-1][j-1]
                     nu[i][j] = kminus[i][j] - theta[i][j]
-                    Mach[i][j] = EF._zero_PranMeyer(nu[i][j])
+                    Mach[i][j] = EF.inv_PranMeyer(nu[i][j])
                     kplus[i][j] = theta[i][j] - nu[i][j]
                     mu[i][j] = np.arcsin(1/Mach[i][j])*180/np.pi
 
@@ -85,7 +85,7 @@ def main(angle, start_pts, length, M1, radius=1, clines=True, contour=False,):
                 else: # Interior point
                     theta[i][j] = .5*(kminus[i-1][j-1] + kplus[i-1][j])
                     nu[i][j] = .5*(kminus[i-1][j-1] - kplus[i-1][j])
-                    Mach[i][j] = EF._zero_PranMeyer(nu[i][j])
+                    Mach[i][j] = EF.inv_PranMeyer(nu[i][j])
                     kminus[i][j] = kminus[i-1][j-1]
                     kplus[i][j] = kplus[i-1][j]
                     mu[i][j] = np.arcsin(1/Mach[i][j])*180/np.pi
@@ -102,7 +102,7 @@ def main(angle, start_pts, length, M1, radius=1, clines=True, contour=False,):
                 else:# Interior point
                     theta[i][j] = .5*(kminus[i-1][j] + kplus[i-1][j+1])
                     nu[i][j] = .5*(kminus[i-1][j] - kplus[i-1][j+1])
-                    Mach[i][j] = EF._zero_PranMeyer(nu[i][j])
+                    Mach[i][j] = EF.inv_PranMeyer(nu[i][j])
                     kminus[i][j] = kminus[i-1][j]
                     kplus[i][j] = kplus[i-1][j+1]
                     mu[i][j] = np.arcsin(1/Mach[i][j])*180/np.pi
@@ -216,7 +216,7 @@ def analytic_solution(half_angle, length, M1, dist, MachA, start_pts):
     plt.xlabel('Horiztonal Distance')
     plt.title('Mach Number Along Nozzle')
     plt.legend()
-    plt.savefig('Diverging Duct Mach Number.pdf')
+    # plt.savefig('Diverging Duct Mach Number.pdf')
     #plt.close()
     plt.show() 
 
@@ -229,7 +229,7 @@ def analytic_solution(half_angle, length, M1, dist, MachA, start_pts):
     plt.ylabel('$L_1$')
     plt.xlabel('Start Points')
     plt.legend()
-    plt.savefig('L1 Norm.pdf')
+    # plt.savefig('L1 Norm.pdf')
     #plt.close()
     plt.show()
 
@@ -245,7 +245,7 @@ def presstemp(xs, Mach, start_points, length, GAMMA=1.4):
     for run in range(len(xs)):
         temp = np.zeros(len(xs[run]))
         for i in range(len(xs[run])):
-            temp[i] = IF.TT0(Mach[run][i], GAMMA)
+            temp[i] = IF.TRatio(Mach[run][i], GAMMA)
         plt.plot(xs[run], temp, label='T/T0 {}'.format(start_points[run]))
 
     xsa = np.linspace(0, length, 100)
@@ -253,21 +253,21 @@ def presstemp(xs, Mach, start_points, length, GAMMA=1.4):
     Astar = CD.SonicAreaRatio(M1)
     tempa = np.zeros(len(ysa))
     for i in range(len(ysa)):
-        tempa[i] = IF.TT0(CD.MachfromAreaRatio(ysa[i]/Astar))
+        tempa[i] = IF.TRatio(CD.MachfromAreaRatio(ysa[i]/Astar))
     plt.plot(xsa, tempa, label='Analytic Result')
 
     plt.title('Temperature Ratio Along the Nozzle')
     plt.xlabel('X Direction')
     plt.ylabel('Temperature Ratio ($T/T_0$)')
     plt.legend()
-    plt.savefig('Diverging Duct Temperature Ratio.pdf')
+    # plt.savefig('Diverging Duct Temperature Ratio.pdf')
     plt.close()
     plt.show()
 
     for run in range(len(xs)):
         press = np.zeros(len(xs[run]))
         for i in range(len(xs[run])):
-            press[i] = IF.pp0(Mach[run][i], GAMMA)
+            press[i] = IF.pRatio(Mach[run][i], GAMMA)
         plt.plot(xs[run], press, label='P/P0 {}'.format(start_points[run]))
 
     xsa = np.linspace(0, length, 100)
@@ -275,7 +275,7 @@ def presstemp(xs, Mach, start_points, length, GAMMA=1.4):
     Astar = CD.SonicAreaRatio(M1)
     pressa = np.zeros(len(ysa))
     for i in range(len(ysa)):
-        pressa[i] = IF.pp0(CD.MachfromAreaRatio(ysa[i]/Astar))
+        pressa[i] = IF.pRatio(CD.MachfromAreaRatio(ysa[i]/Astar))
     plt.plot(xsa, pressa, label='Analytic Result')
 
     plt.title('Pressure Ratio Along the Nozzle')

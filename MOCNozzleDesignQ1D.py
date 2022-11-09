@@ -149,7 +149,7 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
     plt.xlabel('Distance from Throat')
     plt.ylabel('Vertical Distance')
     #plt.legend()
-    plt.savefig('MOC Nozzle Design.pdf')
+    # plt.savefig('MOC Nozzle Design.pdf')
     #plt.close()
     plt.show()
     
