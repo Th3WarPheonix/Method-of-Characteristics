@@ -6,9 +6,6 @@ import ExpansionFan as EF
 import CDNozzles as CD
 import IsentropicFlow as IF
 
-
-# Tests
-
 def main(angle, start_pts, length, M1, radius=1, clines=True, contour=False,):
     if start_pts % 2 == 1:
         start_pts += 1
