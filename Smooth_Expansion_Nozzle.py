@@ -35,7 +35,8 @@ def MinLength_nozzle(Me, num_waves, throat_radius, gamma=1.4):
     # Setting initial values, theta and nu are equal
     theta[0] = np.linspace(0, theta_max, len(theta[0])+1)[1:]
     nu[0] = np.linspace(0, theta_max, len(theta[0])+1)[1:]
-    
+
+        
     for i in range(num_waves): # Calculating the conditions at the throat radius poitns
         Mach[0][i]   = expfan.inv_PranMeyer(nu[0][i], gamma=gamma, deg=False)
         mu[0][i]     = np.arcsin(1/Mach[0][i])
@@ -60,6 +61,8 @@ def MinLength_nozzle(Me, num_waves, throat_radius, gamma=1.4):
     # Solving for coordiantes with new point y coord known
     y[1][0] = 0
     x[1][0] = -y[0][0]/np.tan(Cminus[1][0]) + x[0][0]
+
+
     
     k = 1
     for j in range(1, num_waves): # Moving along first left running characteristic
@@ -152,10 +155,9 @@ def MinLength_nozzle(Me, num_waves, throat_radius, gamma=1.4):
 if __name__ == '__main__':
 
     Me = 3.8486
-    num_waves = 15
+    num_waves = 4
     throat_area = .042; #m^2
     throat_radius = np.sqrt(throat_area/np.pi) #m
-    throat_radius = 1
     downstream_radius = throat_radius * .4 #m
     gamma = 1.21
 
