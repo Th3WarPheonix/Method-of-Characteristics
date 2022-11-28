@@ -109,6 +109,7 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
                 b = slope*x[-1][i-2] - Cplus[i][j]*x[i][j]
                 x[-1][i-1] = (a+b)/(slope - Cplus[i][j])
                 y[-1][i-1] = Cplus[i][j]*(x[-1][i-1] - x[i][j]) + y[i][j]
+                print(Cplus[i][j])
             elif j == num_waves - i:
                 slope = (theta[i-1][j+1] + theta[i][j])/2
                 slope = np.tan(slope*np.pi/180)
@@ -154,12 +155,11 @@ def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
     plt.savefig('MOC Nozzle Design.png')
     # plt.close()
     plt.show()
-    print(Kminus)
-    print(Kplus)
+
 if __name__ == '__main__':
 
     Me = 3.8486
-    num_waves = 15
+    num_waves = 20
     r_t = 1
     gamma = 1.21
 
