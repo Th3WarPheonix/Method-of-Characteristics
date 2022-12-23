@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import ExpansionFan as expfan
 import numpy as np
+test
 
 def MinLength_nozzle(Me, num_waves, angle0=.375, gamma=1.4):
     """Creates a minimum length nozzle contour using the method of charcteristics
